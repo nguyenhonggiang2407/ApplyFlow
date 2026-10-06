@@ -390,7 +390,7 @@ export function App() {
                   <p className="eyebrow">{view === 'overview' ? dateText : 'YOUR NEXT CHAPTER'}</p>
                   <h1>
                     {view === 'overview'
-                      ? `Chào ${session.user.name.split(' ').at(-1)}, sẵn sàng bước tiếp?`
+                      ? `Chào ${session.user.isDemo ? 'bạn' : session.user.name.split(' ').at(-1)}, sẵn sàng bước tiếp?`
                       : view === 'applications'
                         ? 'Mỗi cơ hội, một bước tiến.'
                         : 'Chuẩn bị tốt, tự tin hơn.'}

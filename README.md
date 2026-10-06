@@ -113,3 +113,11 @@ Their associated data and sessions cascade away. Registered accounts are exclude
 Built as a student portfolio project with AI-assisted development. Read the code, run the demo and explain the tradeoffs before presenting it as your work. No employment history, user count or effectiveness claim is implied.
 
 Original application code is under the [MIT License](LICENSE). Dependencies retain their respective licenses. The interface uses CSS and Lucide icons; no externally hosted photographs or paid assets are required.
+
+## Screenshots
+
+Captured from the compiled local application with fictional demo data.
+
+![Desktop workspace](docs/screenshots/desktop.jpg)
+
+![Mobile workspace](docs/screenshots/mobile.jpg)
