@@ -42,7 +42,7 @@ import {
   StatusBadge,
   TaskItem,
 } from './components';
-import { dateLabel, daysUntil, exportApplications, initials, today } from './utils';
+import { dateLabel, daysUntil, dueLabel, exportApplications, initials, today } from './utils';
 const empty: Workspace = { applications: [], tasks: [], activities: [] };
 type View = 'overview' | 'applications' | 'tasks';
 const viewFromHash = (): View =>
@@ -212,7 +212,13 @@ export function App() {
       (filter === 'all' || item.status === filter) &&
       `${item.company} ${item.role} ${item.location}`.toLocaleLowerCase('vi').includes(normalized),
   );
-  const pending = workspace.tasks.filter((task) => !task.completed);
+  const pending = workspace.tasks
+    .filter((task) => !task.completed)
+    .sort((a, b) => (a.dueDate || '9999-12-31').localeCompare(b.dueDate || '9999-12-31'));
+  const nextTask = pending[0];
+  const nextApplication = workspace.applications.find(
+    (item) => item.id === nextTask?.applicationId,
+  );
   const visibleTasks = workspace.tasks.filter(
     (task) =>
       (taskFilter === 'all' || task.completed === (taskFilter === 'done')) &&
@@ -410,6 +416,45 @@ export function App() {
               </div>
               {view === 'overview' ? (
                 <>
+                  <section className="focus-card" aria-labelledby="focus-heading">
+                    <span className="focus-icon" aria-hidden="true">
+                      <Target size={24} />
+                    </span>
+                    <div className="focus-copy">
+                      <p className="eyebrow">BƯỚC TIẾP THEO</p>
+                      <h2 id="focus-heading">
+                        {nextTask
+                          ? nextTask.title
+                          : workspace.applications.length
+                            ? 'Tạo một bước chuẩn bị cho cơ hội của bạn'
+                            : 'Bắt đầu từ một cơ hội bạn quan tâm'}
+                      </h2>
+                      <p>
+                        {nextTask
+                          ? `${nextApplication?.company ?? 'Hồ sơ ứng tuyển'} · ${dueLabel(nextTask.dueDate)}`
+                          : workspace.applications.length
+                            ? 'Mở một hồ sơ để thêm việc cần làm và đặt hạn hoàn thành.'
+                            : 'Lưu vị trí, ghi chú điều cần chuẩn bị và theo dõi từng bước.'}
+                      </p>
+                    </div>
+                    <button
+                      className="button secondary"
+                      onClick={() =>
+                        nextApplication
+                          ? setSelected(nextApplication.id)
+                          : workspace.applications.length
+                            ? nav('applications')
+                            : setEditing(null)
+                      }
+                    >
+                      {nextApplication
+                        ? 'Mở hồ sơ'
+                        : workspace.applications.length
+                          ? 'Xem hồ sơ'
+                          : 'Thêm hồ sơ đầu tiên'}
+                      <ArrowRight size={17} />
+                    </button>
+                  </section>
                   <div className="stats-grid">
                     <Stat
                       label="Tổng hồ sơ"
@@ -624,6 +669,7 @@ export function App() {
                     <div className="filter-tabs" role="group" aria-label="Lọc trạng thái">
                       <button
                         className={filter === 'all' ? 'selected' : ''}
+                        aria-pressed={filter === 'all'}
                         onClick={() => setFilter('all')}
                       >
                         Tất cả<span>{workspace.applications.length}</span>
@@ -632,6 +678,7 @@ export function App() {
                         <button
                           key={status}
                           className={filter === status ? 'selected' : ''}
+                          aria-pressed={filter === status}
                           onClick={() => setFilter(status)}
                         >
                           {STATUS_LABELS[status]}
@@ -659,6 +706,7 @@ export function App() {
                           onClick={() => setBoard(true)}
                         >
                           <Columns3 size={17} />
+                          <span>Bảng</span>
                         </button>
                         <button
                           className={!board ? 'selected' : ''}
@@ -667,6 +715,7 @@ export function App() {
                           onClick={() => setBoard(false)}
                         >
                           <List size={17} />
+                          <span>Danh sách</span>
                         </button>
                       </div>
                     </div>
@@ -687,7 +736,12 @@ export function App() {
                       />
                     </div>
                   ) : board ? (
-                    <div className="board-scroll" aria-label="Bảng trạng thái ứng tuyển">
+                    <div
+                      className="board-scroll"
+                      role="region"
+                      tabIndex={0}
+                      aria-label="Bảng trạng thái ứng tuyển, có thể cuộn ngang"
+                    >
                       <div className={`board-grid ${filter !== 'all' ? 'single-lane' : ''}`}>
                         {STATUSES.filter((status) => filter === 'all' || status === filter).map(
                           (status) => (
@@ -807,18 +861,21 @@ export function App() {
                     <div className="segmented" role="group" aria-label="Lọc việc">
                       <button
                         className={taskFilter === 'pending' ? 'selected' : ''}
+                        aria-pressed={taskFilter === 'pending'}
                         onClick={() => setTaskFilter('pending')}
                       >
                         Cần làm
                       </button>
                       <button
                         className={taskFilter === 'done' ? 'selected' : ''}
+                        aria-pressed={taskFilter === 'done'}
                         onClick={() => setTaskFilter('done')}
                       >
                         Đã xong
                       </button>
                       <button
                         className={taskFilter === 'all' ? 'selected' : ''}
+                        aria-pressed={taskFilter === 'all'}
                         onClick={() => setTaskFilter('all')}
                       >
                         Tất cả
@@ -946,9 +1003,7 @@ export function App() {
 function Brand() {
   return (
     <a className="brand" href="#overview" aria-label="ApplyFlow trang tổng quan">
-      <span className="brand-mark">
-        A<span />
-      </span>
+      <img className="brand-mark" src="/logo.svg" width="40" height="40" alt="" />
       <strong>
         Apply<span>Flow</span>
       </strong>

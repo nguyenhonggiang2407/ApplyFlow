@@ -1,5 +1,7 @@
 # ApplyFlow
 
+<img src="client/public/logo.svg" width="56" height="56" alt="ApplyFlow: a document with an upward progress arrow" />
+
 A full-stack internship application tracker for students. Keep opportunities, interview preparation and follow-up tasks in one personal workspace.
 
 The interface is in Vietnamese. Sample companies, vacancies and account identities are fictional. This is a portfolio project with working persistence and server-side access control, not a job board or a notification service.
@@ -112,11 +114,11 @@ Their associated data and sessions cascade away. Registered accounts are exclude
 
 Built as a student portfolio project with AI-assisted development. Read the code, run the demo and explain the tradeoffs before presenting it as your work. No employment history, user count or effectiveness claim is implied.
 
-Original application code is under the [MIT License](LICENSE). Dependencies retain their respective licenses. The interface uses CSS and Lucide icons; no externally hosted photographs or paid assets are required.
+Original application code and the SVG logo are under the [MIT License](LICENSE). Dependencies retain their respective licenses. The document-and-arrow logo represents keeping an application and its next step together. The interface uses CSS and Lucide icons; no externally hosted photographs or paid assets are required.
 
 ## Screenshots
 
-Captured from the compiled local application with fictional demo data.
+Captured from the compiled local application with fictional demo data after the October 2026 workspace and logo update.
 
 ![Desktop workspace](docs/screenshots/desktop.jpg)
 

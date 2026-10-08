@@ -78,7 +78,19 @@ export function Modal({
     return () => {
       document.removeEventListener('keydown', listener);
       document.body.style.overflow = '';
-      previous?.focus();
+      queueMicrotask(() => {
+        // A replacement modal owns focus; restore only after the last modal closes.
+        if (document.querySelector('.modal-panel[aria-modal="true"]')) return;
+        if (
+          previous?.isConnected &&
+          previous !== document.body &&
+          previous !== document.documentElement
+        ) {
+          previous.focus({ preventScroll: true });
+          if (document.activeElement === previous) return;
+        }
+        document.getElementById('main-content')?.focus({ preventScroll: true });
+      });
     };
   }, [onClose]);
   return (
@@ -239,98 +251,117 @@ export function ApplicationForm({
       busy={busy}
     >
       <form className="application-form" onSubmit={submit}>
-        <div className="form-grid">
+        <fieldset className="form-section" disabled={busy}>
+          <legend>
+            <span>01</span> Thông tin cơ hội
+          </legend>
+          <p>Công ty và vị trí giúp bạn tìm lại hồ sơ nhanh hơn.</p>
+          <div className="form-grid">
+            <label>
+              Công ty <span>*</span>
+              <input
+                autoComplete="organization"
+                required
+                maxLength={120}
+                value={value.company}
+                onChange={(e) => set('company', e.target.value)}
+                placeholder="Ví dụ: Nori Studio"
+              />
+            </label>
+            <label>
+              Vị trí ứng tuyển <span>*</span>
+              <input
+                required
+                maxLength={160}
+                value={value.role}
+                onChange={(e) => set('role', e.target.value)}
+                placeholder="Frontend Developer Intern"
+              />
+            </label>
+            <label>
+              Địa điểm
+              <input
+                maxLength={100}
+                value={value.location}
+                onChange={(e) => set('location', e.target.value)}
+                placeholder="TP. Hồ Chí Minh"
+              />
+            </label>
+            <label>
+              Hình thức
+              <select value={value.workMode} onChange={(e) => set('workMode', e.target.value)}>
+                {WORK_MODES.map((mode) => (
+                  <option key={mode} value={mode}>
+                    {MODE_LABELS[mode]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset className="form-section" disabled={busy}>
+          <legend>
+            <span>02</span> Theo dõi tiến độ
+          </legend>
+          <p>Ghi lại bước hiện tại và những mốc thời gian cần nhớ.</p>
+          <div className="form-grid">
+            <label>
+              Trạng thái
+              <select value={value.status} onChange={(e) => set('status', e.target.value)}>
+                {STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {STATUS_LABELS[status]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Ngày gửi hồ sơ
+              <input
+                type="date"
+                min="2000-01-01"
+                max="2100-12-31"
+                value={value.appliedOn}
+                onChange={(e) => set('appliedOn', e.target.value)}
+              />
+            </label>
+            <label>
+              Hạn ứng tuyển
+              <input
+                type="date"
+                min="2000-01-01"
+                max="2100-12-31"
+                value={value.deadline}
+                onChange={(e) => set('deadline', e.target.value)}
+              />
+            </label>
+            <label>
+              Liên kết tuyển dụng
+              <input
+                type="url"
+                maxLength={2000}
+                value={value.url}
+                onChange={(e) => set('url', e.target.value)}
+                placeholder="https://…"
+              />
+            </label>
+          </div>
+        </fieldset>
+        <fieldset className="form-section" disabled={busy}>
+          <legend>
+            <span>03</span> Chuẩn bị của bạn
+          </legend>
           <label>
-            Công ty <span>*</span>
-            <input
-              autoComplete="organization"
-              required
-              maxLength={120}
-              value={value.company}
-              onChange={(e) => set('company', e.target.value)}
-              placeholder="Ví dụ: Nori Studio"
+            Ghi chú
+            <textarea
+              maxLength={5000}
+              rows={4}
+              value={value.notes}
+              onChange={(e) => set('notes', e.target.value)}
+              placeholder="Điều bạn cần chuẩn bị, yêu cầu kỹ năng, câu hỏi cho buổi phỏng vấn…"
             />
           </label>
-          <label>
-            Vị trí ứng tuyển <span>*</span>
-            <input
-              required
-              maxLength={160}
-              value={value.role}
-              onChange={(e) => set('role', e.target.value)}
-              placeholder="Frontend Developer Intern"
-            />
-          </label>
-          <label>
-            Địa điểm
-            <input
-              maxLength={100}
-              value={value.location}
-              onChange={(e) => set('location', e.target.value)}
-              placeholder="TP. Hồ Chí Minh"
-            />
-          </label>
-          <label>
-            Hình thức
-            <select value={value.workMode} onChange={(e) => set('workMode', e.target.value)}>
-              {WORK_MODES.map((mode) => (
-                <option key={mode} value={mode}>
-                  {MODE_LABELS[mode]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Trạng thái
-            <select value={value.status} onChange={(e) => set('status', e.target.value)}>
-              {STATUSES.map((status) => (
-                <option key={status} value={status}>
-                  {STATUS_LABELS[status]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Ngày gửi hồ sơ
-            <input
-              type="date"
-              min="2000-01-01"
-              max="2100-12-31"
-              value={value.appliedOn}
-              onChange={(e) => set('appliedOn', e.target.value)}
-            />
-          </label>
-          <label>
-            Hạn ứng tuyển
-            <input
-              type="date"
-              min="2000-01-01"
-              max="2100-12-31"
-              value={value.deadline}
-              onChange={(e) => set('deadline', e.target.value)}
-            />
-          </label>
-          <label>
-            Liên kết tuyển dụng
-            <input
-              type="url"
-              maxLength={2000}
-              value={value.url}
-              onChange={(e) => set('url', e.target.value)}
-              placeholder="https://…"
-            />
-          </label>
-        </div>
-        <label>
-          Ghi chú
-          <textarea
-            maxLength={5000}
-            rows={4}
-            value={value.notes}
-            onChange={(e) => set('notes', e.target.value)}
-            placeholder="Điều bạn cần chuẩn bị, yêu cầu kỹ năng, câu hỏi cho buổi phỏng vấn…"
-          />
-        </label>
+        </fieldset>
         {error && (
           <p className="form-error" role="alert">
             {error}
@@ -433,6 +464,7 @@ export function ApplicationDetail({
   const [title, setTitle] = useState(''),
     [date, setDate] = useState(''),
     [confirm, setConfirm] = useState(false);
+  const completed = tasks.filter((task) => task.completed).length;
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (await onTask(title, date)) {
@@ -475,11 +507,20 @@ export function ApplicationDetail({
         </div>
         <div className="detail-dates">
           <div>
-            <span>Hạn ứng tuyển</span>
+            <span>
+              <CalendarDays size={16} /> Hạn ứng tuyển
+            </span>
             <strong>{dateLabel(item.deadline)}</strong>
+            {item.deadline && item.status === 'saved' && (
+              <small className={daysUntil(item.deadline) < 0 ? 'overdue' : ''}>
+                {dueLabel(item.deadline)}
+              </small>
+            )}
           </div>
           <div>
-            <span>Đã gửi hồ sơ</span>
+            <span>
+              <Check size={16} /> Đã gửi hồ sơ
+            </span>
             <strong>{dateLabel(item.appliedOn)}</strong>
           </div>
         </div>
@@ -499,9 +540,17 @@ export function ApplicationDetail({
           <div className="section-heading">
             <h3>Việc cần chuẩn bị</h3>
             <span>
-              {tasks.filter((task) => task.completed).length}/{tasks.length} hoàn thành
+              {completed}/{tasks.length} hoàn thành
             </span>
           </div>
+          {tasks.length > 0 && (
+            <progress
+              className="task-progress"
+              value={completed}
+              max={tasks.length}
+              aria-label="Tiến độ việc chuẩn bị"
+            />
+          )}
           {tasks.map((task) => (
             <TaskItem
               key={task.id}
@@ -515,28 +564,30 @@ export function ApplicationDetail({
             <p className="muted">Chia việc chuẩn bị thành các bước nhỏ, có hạn cụ thể.</p>
           )}
           <form className="task-form" onSubmit={submit}>
-            <label className="sr-only" htmlFor="task-title">
+            <label className="task-title-label" htmlFor="task-title">
               Việc cần làm
+              <input
+                id="task-title"
+                required
+                maxLength={200}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Thêm một việc cần làm…"
+                disabled={busy}
+              />
             </label>
-            <input
-              id="task-title"
-              required
-              maxLength={200}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Thêm một việc cần làm…"
-            />
-            <label className="sr-only" htmlFor="task-date">
+            <label className="task-date-label" htmlFor="task-date">
               Hạn hoàn thành
+              <input
+                id="task-date"
+                type="date"
+                min="2000-01-01"
+                max="2100-12-31"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                disabled={busy}
+              />
             </label>
-            <input
-              id="task-date"
-              type="date"
-              min="2000-01-01"
-              max="2100-12-31"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
             <button
               className="button primary compact"
               disabled={busy || !title.trim()}

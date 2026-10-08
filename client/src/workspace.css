@@ -1,0 +1,808 @@
+/* Workspace and dialog surfaces. Authentication keeps its existing layout. */
+.brand-mark {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  padding: 0;
+  flex-shrink: 0;
+}
+.app-shell {
+  background: #f4f6f3;
+  --muted: #62756c;
+  --border: #dfe7df;
+}
+.app-shell main {
+  padding-top: 28px;
+}
+.app-shell .sidebar {
+  padding-top: 28px;
+}
+.app-shell .workspace-label {
+  color: #65766c;
+  font-size: 10px;
+  margin-top: 40px;
+}
+.app-shell .nav-item {
+  min-height: 48px;
+  font-size: 13px;
+  color: #566b60;
+}
+.app-shell .nav-item.active {
+  background: #143c39;
+  color: #fff;
+}
+.app-shell .nav-count {
+  background: #ecf3eb;
+  color: #143c39;
+  min-width: 23px;
+  height: 23px;
+  font-size: 11px;
+}
+.app-shell .sidebar-tip {
+  border: 1px solid #e8e4d7;
+  background: #faf8f0;
+}
+.app-shell .sidebar-tip > div > span,
+.app-shell .sidebar-bottom p,
+.app-shell .sidebar-bottom .version {
+  font-size: 10px;
+  color: #6c765f;
+}
+.app-shell .sidebar-tip button {
+  min-height: 32px;
+  font-size: 11px;
+}
+.app-shell .topbar {
+  background: #fff;
+  height: 80px;
+}
+.app-shell .search {
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #dfe7df;
+  border-radius: 10px;
+  background: #f7f9f6;
+  color: #62756c;
+}
+.app-shell .search input {
+  font-size: 13px;
+}
+.app-shell .search input::placeholder {
+  color: #62756c;
+}
+.app-shell .profile strong {
+  max-width: 160px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-shell .profile > div > span {
+  font-size: 11px;
+  color: #62756c;
+}
+.app-shell .icon-button,
+.modal-panel .icon-button {
+  min-width: 40px;
+  min-height: 40px;
+  color: #536b5e;
+}
+.app-shell .button,
+.modal-panel .button {
+  min-height: 44px;
+}
+.app-shell .demo-banner {
+  font-size: 12px;
+  color: #736033;
+  margin-bottom: 24px;
+}
+.app-shell .page-heading h1 {
+  font-size: clamp(25px, 2.15vw, 34px);
+  line-height: 1.25;
+  max-width: 720px;
+  margin: 10px 0;
+}
+.app-shell .page-heading > div > p:last-child {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.focus-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 23px 26px;
+  margin-bottom: 22px;
+  border: 1px solid #cdded2;
+  border-radius: 16px;
+  background: #eaf2e9;
+}
+.focus-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #143c39;
+  color: #e6bc76;
+}
+.focus-copy {
+  flex: 1;
+  min-width: 0;
+}
+.focus-copy .eyebrow {
+  color: #496852;
+  font-size: 10px;
+}
+.focus-copy h2 {
+  margin: 6px 0;
+  font-size: 18px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.focus-copy > p:last-child {
+  color: #4f6b58;
+  font-size: 12px;
+}
+.focus-card .button {
+  flex-shrink: 0;
+  border-color: #bfd1c3;
+}
+.app-shell .stat-card {
+  padding: 20px;
+  box-shadow: 0 3px 12px #143c3903;
+}
+.app-shell .stat-card > div {
+  font-size: 12px;
+  color: #50685b;
+}
+.app-shell .stat-card > strong {
+  font-size: 38px;
+  font-weight: 650;
+  margin-top: 13px;
+  color: #143c39;
+  font-variant-numeric: tabular-nums;
+}
+.app-shell .stat-card > p {
+  color: #63786a;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.app-shell .stat-icon {
+  width: 32px;
+  height: 32px;
+  color: #47745a;
+  background: #eef4eb;
+}
+.app-shell .overview-grid {
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr);
+  gap: 22px;
+}
+.app-shell .panel {
+  padding: 24px;
+  box-shadow: 0 3px 12px #143c3903;
+}
+.app-shell .section-heading h2 {
+  font-size: 18px;
+}
+.app-shell .section-heading > div > p,
+.app-shell .section-heading > span {
+  font-size: 12px;
+  color: #63786a;
+}
+.app-shell .text-button {
+  font-size: 12px;
+  min-height: 36px;
+}
+.app-shell .pipeline-summary {
+  gap: 8px;
+}
+.app-shell .summary-stage {
+  border: 1px solid #e3e9df;
+  padding: 14px 11px;
+  background: #f7f9f4;
+}
+.app-shell .summary-stage > span:last-of-type {
+  font-size: 11px;
+  color: #526c59;
+  line-height: 1.5;
+}
+.app-shell .summary-stage strong {
+  font-size: 28px;
+  color: #294c3e;
+}
+.app-shell .summary-stage > svg {
+  color: #5f7b65;
+}
+.app-shell .recent-row {
+  min-height: 78px;
+}
+.app-shell .recent-row strong {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.app-shell .recent-row > div > span {
+  font-size: 12px;
+  color: #62756c;
+  overflow-wrap: anywhere;
+}
+.status-badge {
+  font-size: 11px;
+  color: #48654b;
+  background: #eef3e9;
+  padding: 7px 9px;
+}
+.status-applied {
+  color: #3c6379;
+  background: #eaf1f8;
+}
+.status-interview {
+  color: #7c5d1d;
+  background: #fbf1d8;
+}
+.status-offer {
+  color: #396c40;
+  background: #e9f4e7;
+}
+.status-closed {
+  color: #785651;
+  background: #f4eae7;
+}
+.app-shell .activity-list p {
+  font-size: 12px;
+  line-height: 1.65;
+}
+.app-shell .activity-list time,
+.app-shell .page-footer,
+.app-shell .workspace-footnote {
+  font-size: 11px;
+  color: #62756c;
+}
+.app-shell .task-row,
+.modal-panel .task-row {
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16px 0;
+}
+.app-shell .task-check,
+.modal-panel .task-check {
+  width: 28px;
+  height: 28px;
+  flex-basis: 28px;
+  border-color: #93ad97;
+  border-radius: 8px;
+  margin-top: 0;
+}
+.app-shell .task-copy > span,
+.modal-panel .task-copy > span {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.app-shell .task-company,
+.modal-panel .task-company {
+  font-size: 11px;
+  color: #60765f;
+}
+.app-shell .task-due,
+.modal-panel .task-due {
+  font-size: 11px;
+  color: #60765f;
+}
+.overdue {
+  color: #9b4e38 !important;
+}
+.app-shell .small-empty p,
+.app-shell .empty-state p {
+  font-size: 13px;
+  color: #62756c;
+}
+.app-shell .guide-kicker,
+.app-shell .guide-foot {
+  font-size: 10px;
+  line-height: 1.7;
+}
+.app-shell .guide-card > p,
+.app-shell .guide-card li {
+  font-size: 12px;
+}
+.app-shell .filter-tabs button {
+  min-height: 42px;
+  font-size: 12px;
+  color: #536c59;
+}
+.app-shell .filter-tabs button > span {
+  font-size: 11px;
+  color: #62756c;
+}
+.app-shell .view-switch button {
+  display: flex;
+  gap: 6px;
+  min-height: 38px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #526e5a;
+}
+.app-shell .segmented button {
+  min-height: 38px;
+  font-size: 12px;
+  color: #526e5a;
+}
+.app-shell .board-scroll:focus-visible {
+  outline: 3px solid #d69d41;
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+.app-shell .board-grid {
+  grid-template-columns: repeat(5, minmax(260px, 1fr));
+  min-width: 1360px;
+}
+.app-shell .board-grid.single-lane {
+  grid-template-columns: minmax(0, 390px);
+  min-width: 0;
+}
+.app-shell .board-lane {
+  background: #e9eee7;
+  border: 1px solid #dde5d9;
+}
+.app-shell .board-lane h2 {
+  font-size: 13px;
+}
+.app-shell .board-lane > header > span:last-of-type {
+  font-size: 11px;
+  color: #4d6c50;
+  background: #f7faf3;
+}
+.app-shell .application-card {
+  padding: 16px;
+  border-radius: 12px;
+}
+.app-shell .card-company > span:not(.company-mark) {
+  font-size: 12px;
+  color: #526c59;
+}
+.app-shell .application-card h3 {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.app-shell .card-meta,
+.app-shell .card-meta span:last-child,
+.app-shell .application-card footer,
+.app-shell .lane-empty {
+  font-size: 11px;
+  color: #60765f;
+}
+.app-shell .card-open {
+  color: #466d4a;
+}
+.app-shell .table-scroll {
+  padding: 0;
+}
+.app-shell .application-table {
+  font-size: 13px;
+}
+.app-shell .application-table th,
+.app-shell .application-table small,
+.app-shell .table-role > span > span {
+  font-size: 12px;
+  color: #62756c;
+}
+.app-shell .table-role strong {
+  font-size: 14px;
+}
+.modal-panel {
+  max-width: 740px;
+  border: 1px solid #dfe7df;
+}
+.modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff;
+}
+.modal-header h2 {
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.modal-header p {
+  font-size: 13px;
+  color: #62756c;
+  line-height: 1.6;
+}
+.modal-panel label {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #3c5948;
+}
+.modal-panel input,
+.modal-panel select,
+.modal-panel textarea {
+  font-size: 14px;
+  padding: 12px;
+  border-color: #cddbcf;
+  border-radius: 9px;
+  background: #fff;
+  color: #233834;
+}
+.modal-panel input::placeholder,
+.modal-panel textarea::placeholder {
+  color: #71816e;
+}
+.form-section {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.form-section legend {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 650;
+  color: #234b3b;
+}
+.form-section legend > span {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  background: #eef4eb;
+  color: #51704f;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.form-section > p {
+  font-size: 12px;
+  color: #62756c;
+  margin-bottom: 16px;
+}
+.form-section .form-grid {
+  margin-bottom: 0;
+}
+.application-form .form-footer {
+  position: sticky;
+  bottom: 0;
+  padding: 18px 0 0;
+  background: #fff;
+}
+.form-footer > span,
+.detail-footer > span {
+  font-size: 11px;
+  color: #62756c;
+}
+.form-error {
+  font-size: 13px;
+  color: #973e27;
+}
+.detail-top .company-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  font-size: 14px;
+}
+.detail-top > div > strong {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.detail-top p {
+  font-size: 12px;
+  color: #62756c;
+  line-height: 1.6;
+}
+.detail-stage {
+  padding: 16px;
+  background: #f1f6ed;
+  border: 1px solid #dfe8d9;
+}
+.detail-stage label {
+  font-size: 12px !important;
+}
+.detail-stage select {
+  font-size: 13px;
+}
+.detail-dates > div {
+  gap: 10px;
+}
+.detail-dates span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #62756c;
+}
+.detail-dates strong {
+  font-size: 15px;
+}
+.detail-dates small {
+  font-size: 11px;
+  color: #62756c;
+}
+.detail-link {
+  font-size: 13px;
+  color: #326044;
+  min-height: 36px;
+}
+.notes-section {
+  background: #f8faf6;
+  border: 1px solid #e3e9df;
+  border-radius: 12px;
+  padding: 18px;
+}
+.notes-section h3,
+.detail-tasks h3 {
+  font-size: 15px;
+}
+.notes-section p {
+  font-size: 13px;
+  color: #536c59;
+}
+.detail-tasks .section-heading > span {
+  font-size: 12px;
+  color: #62756c;
+}
+.task-progress {
+  display: block;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  margin: 0 0 16px;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e6ede0;
+  color: #3a7550;
+}
+.task-progress::-webkit-progress-bar {
+  background: #e6ede0;
+}
+.task-progress::-webkit-progress-value {
+  background: #3a7550;
+}
+.task-progress::-moz-progress-bar {
+  background: #3a7550;
+}
+.task-form {
+  grid-template-columns: minmax(0, 1fr) 164px 44px;
+  align-items: end;
+  gap: 10px;
+  background: #f5f8f1;
+  border: 1px solid #e0e8d9;
+  border-radius: 12px;
+  padding: 14px;
+}
+.task-form label {
+  min-width: 0;
+}
+.task-form .button {
+  height: 45px;
+}
+.delete-confirm p {
+  font-size: 13px;
+  color: #973e27;
+}
+@media (max-width: 1200px) {
+  .app-shell .overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .overview-aside {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .app-shell .workspace-toolbar {
+    align-items: flex-start;
+  }
+}
+@media (max-width: 800px) {
+  .app-shell .topbar {
+    height: 76px;
+    padding: 0 14px;
+    gap: 8px;
+  }
+  .app-shell .sidebar {
+    top: 76px;
+  }
+  .app-shell .mobile-menu,
+  .app-shell .topbar-actions > .icon-button {
+    width: 40px;
+  }
+  .app-shell .topbar-actions {
+    gap: 2px;
+  }
+  .app-shell .profile {
+    padding-left: 6px;
+  }
+  .app-shell .search {
+    min-width: 0;
+    padding: 0 9px;
+  }
+  .app-shell .search input,
+  .app-shell .search input::placeholder {
+    font-size: 12px;
+  }
+  .app-shell main {
+    padding: 22px 18px 0;
+  }
+  .app-shell .panel {
+    padding: 20px;
+  }
+  .focus-card {
+    padding: 20px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .focus-card .button {
+    margin-left: 62px;
+  }
+  .focus-copy {
+    flex-basis: calc(100% - 62px);
+  }
+  .app-shell .page-heading > .button {
+    font-size: 13px;
+  }
+}
+@media (max-width: 540px) {
+  .app-shell .page-heading h1 {
+    font-size: 27px;
+  }
+  .focus-card {
+    padding: 17px;
+  }
+  .focus-copy h2 {
+    font-size: 16px;
+  }
+  .focus-card .button {
+    width: 100%;
+    margin-left: 0;
+  }
+  .app-shell .stat-card {
+    padding: 16px;
+  }
+  .app-shell .stat-card > div > span:first-child {
+    font-size: 11px;
+  }
+  .app-shell .stat-card > strong {
+    font-size: 34px;
+  }
+  .app-shell .stat-card > p {
+    font-size: 11px;
+  }
+  .app-shell .stat-icon {
+    width: 26px;
+    height: 26px;
+  }
+  .app-shell .overview-aside {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .section-heading {
+    gap: 10px;
+  }
+  .app-shell .section-heading h2 {
+    font-size: 17px;
+  }
+  .app-shell .pipeline-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .app-shell .summary-stage:last-child {
+    grid-column: 1 / -1;
+  }
+  .app-shell .summary-stage > span:last-of-type {
+    font-size: 12px;
+  }
+  .app-shell .summary-stage > svg {
+    width: 15px;
+    right: 12px;
+    top: 16px;
+  }
+  .app-shell .recent-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .app-shell .recent-row > .company-mark {
+    width: 36px;
+    height: 36px;
+    font-size: 11px;
+  }
+  .app-shell .recent-row > div {
+    flex-basis: calc(100% - 46px);
+  }
+  .app-shell .recent-row > .status-badge {
+    margin-left: 46px;
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  .app-shell .task-due {
+    margin-left: 38px;
+  }
+  .app-shell .tasks-panel .task-copy {
+    flex-basis: calc(100% - 38px);
+  }
+  .app-shell .workspace-toolbar {
+    display: flex;
+    flex-direction: column;
+  }
+  .app-shell .view-controls {
+    margin-top: 0;
+    align-self: flex-end;
+  }
+  .app-shell .filter-tabs {
+    gap: 4px;
+  }
+  .app-shell .filter-tabs button {
+    padding: 9px 10px;
+  }
+  .app-shell .workspace-footnote {
+    font-size: 11px;
+  }
+  .modal-panel input,
+  .modal-panel select,
+  .modal-panel textarea {
+    font-size: 16px;
+  }
+  .modal-header,
+  .application-form,
+  .detail-body {
+    padding: 20px;
+  }
+  .modal-header h2 {
+    font-size: 22px;
+  }
+  .form-grid {
+    gap: 17px;
+  }
+  .form-section {
+    margin-bottom: 26px;
+  }
+  .form-footer {
+    gap: 8px;
+  }
+  .form-footer .button {
+    flex: 1;
+    padding: 12px;
+  }
+  .detail-top > div > strong {
+    font-size: 15px;
+  }
+  .detail-top p {
+    font-size: 12px;
+  }
+  .detail-stage label {
+    flex-basis: 100%;
+  }
+  .detail-stage select {
+    font-size: 16px;
+  }
+  .detail-dates {
+    gap: 16px;
+  }
+  .detail-dates span {
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .detail-dates strong {
+    font-size: 14px;
+  }
+  .detail-tasks .task-copy {
+    flex-basis: calc(100% - 38px);
+  }
+  .detail-tasks .task-due {
+    margin-left: 38px;
+    flex: 1;
+  }
+  .task-form {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    padding: 12px;
+  }
+  .task-title-label {
+    grid-column: 1 / -1;
+  }
+  .task-date-label {
+    grid-column: 1;
+  }
+  .detail-footer {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
