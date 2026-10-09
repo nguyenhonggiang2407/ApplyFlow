@@ -27,9 +27,9 @@ export async function api<T>(path: string, method = 'GET', body?: unknown): Prom
     throw new ApiError('Không kết nối được máy chủ. Hãy kiểm tra kết nối và thử lại.', 0);
   }
   if (response.status === 204) return undefined as T;
-  const result = await response
-    .json()
-    .catch(() => ({ error: 'Máy chủ trả về dữ liệu không hợp lệ.' }));
+  const result = await response.json().catch(() => {
+    throw new ApiError('Máy chủ trả về dữ liệu không hợp lệ.', response.status);
+  });
   if (!response.ok)
     throw new ApiError(
       result.error ?? 'Không thể hoàn thành yêu cầu.',
