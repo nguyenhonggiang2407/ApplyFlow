@@ -110,9 +110,7 @@ Their associated data and sessions cascade away. Registered accounts are exclude
 - CSV export covers applications currently displayed, not a complete account backup. Dates have calendar-day precision.
 - UI/browser review is separate from API tests. CI does not run browser automation.
 
-## Project ownership and license
-
-Built as a student portfolio project with AI-assisted development. Read the code, run the demo and explain the tradeoffs before presenting it as your work. No employment history, user count or effectiveness claim is implied.
+## License
 
 Original application code and the SVG logo are under the [MIT License](LICENSE). Dependencies retain their respective licenses. The document-and-arrow logo represents keeping an application and its next step together. The interface uses CSS and Lucide icons; no externally hosted photographs or paid assets are required.
 
