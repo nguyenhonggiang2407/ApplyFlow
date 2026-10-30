@@ -25,4 +25,4 @@ Chỉ dùng nội dung dưới đây khi bạn đã chạy, đọc và có thể
 
 > ApplyFlow — dự án theo dõi ứng tuyển/thực tập với React, TypeScript, Express và SQLite. Xây dựng luồng tài khoản, quản lý hồ sơ/việc chuẩn bị, phân quyền theo chủ sở hữu, bảo vệ yêu cầu bằng cookie/CSRF và kiểm tra cập nhật xung đột. Viết kiểm thử API cho xác thực, quyền truy cập và tính toàn vẹn dữ liệu; thực hiện production build.
 
-Không thêm số người dùng, tỷ lệ tăng hiệu quả hoặc kinh nghiệm triển khai thương mại nếu chưa có bằng chứng. Dự án có hỗ trợ AI; phần quan trọng khi phỏng vấn là hiểu, tự chỉnh sửa và giải thích được quyết định trong mã nguồn.
+Không thêm số người dùng, tỷ lệ tăng hiệu quả hoặc kinh nghiệm triển khai thương mại nếu chưa có bằng chứng. Khi thuyết trình, chuẩn bị giải thích luồng dữ liệu, phân quyền và cách xử lý cập nhật đồng thời.
