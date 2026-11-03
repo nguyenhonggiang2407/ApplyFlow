@@ -98,6 +98,20 @@ Mỗi lần sửa hồ sơ có số phiên bản để phát hiện hai tab cùn
 Ứng dụng hiện hiển thị hạn công việc trong trang, chưa gửi email nhắc việc.
 Bản này chạy một tiến trình Node với SQLite trên ổ lưu trữ cố định.
 
+## Lịch công việc
+
+![Xuất lịch trên máy tính](docs/screenshots/calendar-desktop.png)
+
+<details>
+<summary>Giao diện lịch trên điện thoại</summary>
+
+![Xuất lịch trên điện thoại](docs/screenshots/calendar-mobile.png)
+
+</details>
+
+Bản nâng cấp vượt qua **25 kiểm thử API/logic và 3 kiểm thử trình duyệt**, cùng Docker và
+kiểm tra dữ liệu sau khi khởi động lại container. [Xem lần kiểm tra](https://github.com/nguyenhonggiang2407/ApplyFlow/actions/runs/41573666072).
+
 ## Hình ảnh
 
 ![Giao diện máy tính](docs/screenshots/desktop.jpg)
