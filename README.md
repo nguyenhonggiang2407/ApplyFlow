@@ -7,6 +7,10 @@
 Ứng dụng theo dõi hồ sơ thực tập và việc cần chuẩn bị cho mỗi lần ứng tuyển.
 Giao diện tiếng Việt, dùng React, TypeScript, Express và SQLite.
 
+Điểm kỹ thuật: dữ liệu tách theo tài khoản, sửa hồ sơ có kiểm tra version,
+và xuất lịch theo ngày không bị lệch múi giờ. [Kết quả kiểm chứng 03/11/2026](docs/portfolio-verification.md)
+phân biệt kiểm thử local với kiểm tra hosting.
+
 ## Chức năng
 
 - Lưu công ty, vị trí, hạn ứng tuyển, ghi chú và trạng thái hồ sơ.
