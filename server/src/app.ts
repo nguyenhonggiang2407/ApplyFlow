@@ -7,6 +7,7 @@ import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
 import { ZodError } from 'zod';
 import { Store } from './database.js';
+import { exportCalendar } from './calendar.js';
 import { digest, hashPassword, token, verifyPassword } from './auth.js';
 import { APPLICATION_SELECT, activity, insertApplication, seedDemo } from './demo.js';
 import {
@@ -319,6 +320,21 @@ export function createApp(options: AppOptions) {
       userId,
     );
     res.json({ applications, tasks, activities });
+  });
+  app.get('/api/calendar.ics', (req, res) => {
+    const userId = req.authUser!.id;
+    const applications = store.all<Application>(
+      `${APPLICATION_SELECT} WHERE user_id=? ORDER BY id`,
+      userId,
+    );
+    const tasks = store
+      .all<Omit<Task, 'completed'> & { completed: number }>(
+        `SELECT t.id,t.application_id AS applicationId,t.title,t.due_date AS dueDate,t.completed,t.created_at AS createdAt FROM tasks t JOIN applications a ON a.id=t.application_id WHERE a.user_id=? ORDER BY t.id`,
+        userId,
+      )
+      .map((task) => ({ ...task, completed: !!task.completed }));
+    res.type('text/calendar; charset=utf-8').attachment('applyflow-calendar.ics');
+    res.send(exportCalendar(userId, applications, tasks));
   });
   app.get('/api/applications', (req, res) => {
     const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 120).toLowerCase() : '';

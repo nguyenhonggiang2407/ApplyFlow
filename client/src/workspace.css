@@ -806,3 +806,42 @@
     flex-wrap: wrap;
   }
 }
+
+.calendar-export {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px;
+  margin-bottom: 26px;
+  border: 1px solid #d7e8e3;
+  border-radius: 16px;
+  background: #f4faf7;
+}
+.calendar-export h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+.calendar-export p {
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+.calendar-export small {
+  display: block;
+  max-width: 640px;
+  color: #53665f;
+  line-height: 1.6;
+}
+.calendar-export .button {
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .calendar-export {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 18px;
+  }
+  .calendar-export .button {
+    justify-content: center;
+  }
+}

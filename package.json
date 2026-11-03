@@ -1,6 +1,6 @@
 {
   "name": "applyflow",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "A full-stack internship application tracker for students.",
@@ -14,9 +14,10 @@
     "typecheck": "tsc -p client/tsconfig.json && tsc -p server/tsconfig.json --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "tsx --test tests/*.test.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
     "check": "npm run typecheck && npm test && npm run build",
-    "prune:demo": "tsx server/src/prune-demo.ts"
+    "prune:demo": "tsx server/src/prune-demo.ts",
+    "test:browser": "node --test e2e/browser.mjs"
   },
   "dependencies": {
     "cookie": "^1.0.2",
@@ -30,6 +31,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.1.0",

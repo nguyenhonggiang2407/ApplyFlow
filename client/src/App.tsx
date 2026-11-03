@@ -316,7 +316,7 @@ export function App() {
               </button>
             </div>
             <div className="sidebar-bottom">
-              <span className="version">ApplyFlow · v1.0</span>
+              <span className="version">ApplyFlow · v1.1</span>
               <p>Small steps. Next chapter.</p>
             </div>
           </aside>
@@ -851,6 +851,19 @@ export function App() {
                 </section>
               ) : (
                 <section className="panel tasks-panel">
+                  <div className="calendar-export">
+                    <div>
+                      <h2>Đưa kế hoạch vào lịch của bạn</h2>
+                      <p>Xuất hạn ứng tuyển và việc chưa xong có ngày hẹn của các hồ sơ đang mở.</p>
+                      <small>
+                        Tệp lịch là bản chụp tại lúc xuất, không tự đồng bộ. Nhập vào một lịch riêng
+                        để dễ thay thế khi xuất lại.
+                      </small>
+                    </div>
+                    <a className="button secondary" href="/api/calendar.ics">
+                      <CalendarDays size={18} /> Xuất lịch (.ics)
+                    </a>
+                  </div>
                   <div className="section-heading">
                     <div>
                       <h2>Danh sách việc cần làm</h2>

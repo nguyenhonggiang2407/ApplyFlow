@@ -11,6 +11,7 @@ Giao diện tiếng Việt, dùng React, TypeScript, Express và SQLite.
 - Theo dõi hồ sơ ở dạng bảng hoặc các cột Saved, Applied, Interview, Offer và Closed.
 - Tạo việc cần làm cho từng hồ sơ, đánh dấu hoàn thành và xem lịch sử thay đổi.
 - Tìm kiếm, lọc và xuất danh sách đang xem ra CSV.
+- Xuất hạn ứng tuyển và việc cần làm thành tệp lịch `.ics`, nhập vào Google Calendar, Outlook hoặc Apple Calendar.
 - Đăng ký tài khoản riêng hoặc mở một không gian dùng thử với dữ liệu mẫu.
 
 ## Chạy ở máy cá nhân
@@ -46,6 +47,36 @@ npm start
 
 Khi chạy trực tiếp ở cổng 3001, đặt `APP_ORIGIN=http://127.0.0.1:3001` trong `.env`.
 Cấu hình HTTPS, cookie và lưu trữ khi đưa lên host được ghi trong [hướng dẫn triển khai](docs/deployment.md).
+
+## Xuất lịch và chạy bằng Docker
+
+Trong **Việc cần làm**, bấm **Xuất lịch (.ics)**. Lịch chứa hạn ứng tuyển và việc chưa hoàn thành
+có ngày hẹn của các hồ sơ chưa đóng. Sự kiện cả ngày giữ nguyên ngày khi thay đổi múi giờ.
+Ghi chú riêng của hồ sơ không được đưa vào tệp lịch.
+
+Đây là tệp xuất tại một thời điểm, chưa có đồng bộ hai chiều. Khi hoàn thành việc, đổi hạn hoặc
+đóng hồ sơ, hãy xuất lại. Nên nhập vào một lịch riêng và thay lịch cũ để tránh giữ sự kiện đã bỏ.
+UID của cùng bản ghi được giữ ổn định; cách xử lý tệp nhập trùng tùy phần mềm lịch.
+
+```bash
+docker compose up --build -d
+```
+
+Mở http://127.0.0.1:3001. Cấu hình Compose này dùng cho máy cá nhân, chỉ mở cổng ra loopback;
+dữ liệu nằm trong volume `applyflow-data`. `docker compose down` giữ lại dữ liệu.
+Docker image chạy bằng tài khoản `node`, có healthcheck và hỗ trợ cấu hình HTTPS khi triển khai thật.
+
+Kiểm thử trình duyệt dùng bản build thật và SQLite riêng cho mỗi lần chạy:
+
+```bash
+npm run build
+npx playwright install chromium
+npm run test:browser
+```
+
+[GitHub Actions](https://github.com/nguyenhonggiang2407/ApplyFlow/actions/workflows/ci.yml)
+chạy kiểm thử API, TypeScript, giao diện máy tính/điện thoại, Docker và kiểm tra dữ liệu sau khi
+khởi động lại container. Ảnh mới được lưu trong artifact `applyflow-screenshots` của lần chạy.
 
 ## Cấu trúc
 

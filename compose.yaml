@@ -1,0 +1,15 @@
+services:
+  applyflow:
+    build: .
+    ports:
+      - '127.0.0.1:3001:3001'
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      APP_ORIGIN: http://127.0.0.1:3001
+      ENABLE_DEMO: 'true'
+    volumes:
+      - applyflow-data:/app/data
+    restart: unless-stopped
+volumes:
+  applyflow-data:
