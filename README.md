@@ -1,5 +1,7 @@
 # ApplyFlow
 
+**Hosting demo:** đã có cấu hình Render Free. Xem [cách triển khai và giới hạn dữ liệu tạm](docs/render-free.md). Dữ liệu SQLite có thể mất sau khi host ngủ/restart; chưa có URL demo được xác minh.
+
 <img src="client/public/logo.svg" width="56" height="56" alt="ApplyFlow" />
 
 Ứng dụng theo dõi hồ sơ thực tập và việc cần chuẩn bị cho mỗi lần ứng tuyển.
