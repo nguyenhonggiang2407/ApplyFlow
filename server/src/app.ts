@@ -54,6 +54,7 @@ export interface AppOptions {
   production?: boolean;
   secureCookies?: boolean;
   demo?: boolean;
+  demoLoginEmail?: string;
   trustProxy?: boolean;
   serveClient?: boolean;
   rateLimits?: boolean;
@@ -233,7 +234,11 @@ export function createApp(options: AppOptions) {
   });
   app.post('/api/auth/login', async (req, res) => {
     const value = loginSchema.parse(req.body);
-    const user = store.one<UserRow>('SELECT * FROM users WHERE email=? AND is_demo=0', value.email);
+    const user = store.one<UserRow>(
+      'SELECT * FROM users WHERE email=? AND (is_demo=0 OR email=?)',
+      value.email,
+      options.demoLoginEmail ?? null,
+    );
     const valid = await verifyPassword(value.password, user?.password_hash);
     if (!valid || !user) throw new HttpError(401, 'Email hoặc mật khẩu chưa đúng.');
     res.json({

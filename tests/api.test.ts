@@ -9,6 +9,7 @@ import { createApp } from '../server/src/app.js';
 import { hashPassword, verifyPassword } from '../server/src/auth.js';
 import { csvCell } from '../client/src/utils.js';
 import { runtimeConfig } from '../server/src/config.js';
+import { seedDemoLogin } from '../server/src/demo.js';
 const origin = 'http://localhost:5173';
 const application = {
   company: 'Nori Studio',
@@ -47,6 +48,65 @@ test('passwords use unique salted hashes and verify without storing the password
     await verifyPassword('password', `scrypt:${'0'.repeat(32)}:${'z'.repeat(128)}`),
     false,
   );
+});
+
+test('the configured demo login is opt-in, uses private fictional data and preserves existing accounts', async () => {
+  const email = 'portfolio-fixture@example.test';
+  const password = 'Fictional test password 2026';
+  assert.equal(
+    runtimeConfig({ DEMO_LOGIN_EMAIL: email, DEMO_LOGIN_PASSWORD: password }).demoLogin,
+    undefined,
+  );
+  assert.throws(() => runtimeConfig({ DEMO_LOGIN_ENABLED: '1' }), /explicit demo DATABASE_PATH/);
+  const config = runtimeConfig({
+    DEMO_LOGIN_ENABLED: '1',
+    DEMO_LOGIN_EMAIL: email.toUpperCase(),
+    DEMO_LOGIN_PASSWORD: password,
+    DATABASE_PATH: ':memory:',
+  });
+  const store = new Store(':memory:');
+  try {
+    await seedDemoLogin(store, config.demoLogin!);
+    await seedDemoLogin(store, { email, password: 'Another fictional password' });
+    const app = createApp({ store, origin, demoLoginEmail: config.demoLogin!.email });
+    const owner = await account(app, 'another-account@example.test');
+    const owned = await owner.agent
+      .post('/api/applications')
+      .set('Origin', origin)
+      .set('X-CSRF-Token', owner.csrf)
+      .send(application)
+      .expect(201);
+    await assert.rejects(
+      seedDemoLogin(store, { email: owner.user.email, password }),
+      /registered account/,
+    );
+    const visitor = request.agent(app);
+    await visitor.get('/api/workspace').expect(401);
+    const preflight = await visitor.get('/api/auth/session').expect(200);
+    const logIn = (agent: typeof visitor, csrf: string, value: string) =>
+      agent
+        .post('/api/auth/login')
+        .set('Origin', origin)
+        .set('X-CSRF-Token', csrf)
+        .send({ email, password: value });
+    await logIn(visitor, preflight.body.csrfToken, 'Another fictional password').expect(401);
+    const login = await logIn(visitor, preflight.body.csrfToken, password).expect(200);
+    assert.equal(login.body.user.isDemo, true);
+    const list = await visitor.get('/api/applications').expect(200);
+    assert.equal(list.body.applications.length, 7);
+    await visitor.get('/api/applications/' + owned.body.application.id).expect(404);
+    await visitor
+      .post('/api/auth/logout')
+      .set('Origin', origin)
+      .set('X-CSRF-Token', login.body.csrfToken)
+      .expect(204);
+    await visitor.get('/api/workspace').expect(401);
+    const inactive = request.agent(createApp({ store, origin }));
+    const inactiveSession = await inactive.get('/api/auth/session').expect(200);
+    await logIn(inactive, inactiveSession.body.csrfToken, password).expect(401);
+  } finally {
+    store.close();
+  }
 });
 test('registration rotates guest session, uses HttpOnly cookie, and omits password hash', async () => {
   const { store, app } = fixture();

@@ -37,6 +37,19 @@ Nút **Dùng thử với dữ liệu mẫu** tạo một không gian riêng, g�
 Tài khoản đăng ký mới bắt đầu với danh sách trống.
 Dữ liệu được lưu ở `data/applyflow.sqlite` và còn lại sau khi khởi động lại ứng dụng.
 
+### Tài khoản demo cấu hình qua môi trường
+
+Trong môi trường demo riêng, đặt `DEMO_LOGIN_ENABLED=1` và trỏ `DATABASE_PATH` đến
+database dành riêng cho demo. Cấp `DEMO_LOGIN_EMAIL` và `DEMO_LOGIN_PASSWORD` qua
+biến môi trường hoặc kho bí mật của host. Mật khẩu cần dài 10–128 ký tự.
+Khi ứng dụng khởi động, tài khoản sẽ có sẵn hồ sơ và việc cần làm hư cấu. Dùng biểu mẫu
+đăng nhập thông thường. API giới hạn tài khoản ở workspace riêng của nó.
+
+Chạy lại bước khởi tạo giữ nguyên mật khẩu và dữ liệu demo đã có. Nếu email thuộc một tài khoản
+đã đăng ký, ứng dụng từ chối khởi tạo demo với email đó. Khi bật tài khoản cấu hình, lệnh
+`npm run prune:demo` giữ tài khoản này và tiếp tục dọn các workspace dùng thử đã hết hạn.
+Chỉ nhập dữ liệu hư cấu vì người dùng chung tài khoản sẽ thấy cùng một workspace.
+
 ## Kiểm tra và build
 
 ```bash
