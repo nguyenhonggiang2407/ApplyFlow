@@ -1,3 +1,5 @@
+import { registerSchema } from './validation.js';
+
 export function runtimeConfig(env: NodeJS.ProcessEnv = process.env) {
   const production = env.NODE_ENV === 'production';
   const origin = env.APP_ORIGIN ?? 'http://localhost:5173';
@@ -20,6 +22,18 @@ export function runtimeConfig(env: NodeJS.ProcessEnv = process.env) {
   const host = env.HOST ?? '127.0.0.1';
   if (production && localHttp && !['localhost', '127.0.0.1', '::1'].includes(host))
     throw new Error('Insecure production preview must bind only to loopback.');
+  let demoLogin: { email: string; password: string } | undefined;
+  if (env.DEMO_LOGIN_ENABLED === '1') {
+    if (!env.DATABASE_PATH?.trim())
+      throw new Error('Demo login requires an explicit demo DATABASE_PATH.');
+    const parsed = registerSchema.pick({ email: true, password: true }).safeParse({
+      email: env.DEMO_LOGIN_EMAIL,
+      password: env.DEMO_LOGIN_PASSWORD,
+    });
+    if (!parsed.success)
+      throw new Error('Set valid DEMO_LOGIN_EMAIL and DEMO_LOGIN_PASSWORD values for demo login.');
+    demoLogin = parsed.data;
+  }
   return {
     production,
     origin,
@@ -28,6 +42,7 @@ export function runtimeConfig(env: NodeJS.ProcessEnv = process.env) {
     secureCookies: production && !localHttp,
     databasePath: env.DATABASE_PATH ?? './data/applyflow.sqlite',
     demo: env.ENABLE_DEMO === 'true',
+    demoLogin,
     trustProxy: env.TRUST_PROXY === '1',
   };
 }

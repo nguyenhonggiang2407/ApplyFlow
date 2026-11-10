@@ -1,5 +1,6 @@
 import type { ApplicationInput } from '../../shared/types.js';
 import { Store } from './database.js';
+import { hashPassword } from './auth.js';
 export const APPLICATION_SELECT = `SELECT id, company, role, location, work_mode AS workMode, status, url, deadline, applied_on AS appliedOn, notes, version, created_at AS createdAt, updated_at AS updatedAt FROM applications`;
 export function activity(
   store: Store,
@@ -135,4 +136,31 @@ export function seedDemo(store: Store, userId: number) {
       new Date().toISOString(),
     );
   activity(store, userId, ids[0], 'Chuyển Nori Studio sang Phỏng vấn');
+}
+
+export async function seedDemoLogin(
+  store: Store,
+  { email, password }: { email: string; password: string },
+): Promise<void> {
+  function accountExists() {
+    const existing = store.one<{ is_demo: number }>(
+      'SELECT is_demo FROM users WHERE email=?',
+      email,
+    );
+    if (existing?.is_demo === 0) throw new Error('The demo login cannot use a registered account.');
+    return existing !== undefined;
+  }
+  if (accountExists()) return;
+  const hash = await hashPassword(password);
+  store.transaction(() => {
+    if (accountExists()) return;
+    const { lastInsertRowid } = store.run(
+      'INSERT INTO users(name,email,password_hash,is_demo,created_at) VALUES(?,?,?,1,?)',
+      'Portfolio Demo',
+      email,
+      hash,
+      new Date().toISOString(),
+    );
+    seedDemo(store, Number(lastInsertRowid));
+  });
 }

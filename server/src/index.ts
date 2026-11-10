@@ -2,10 +2,17 @@ import 'dotenv/config';
 import { Store } from './database.js';
 import { createApp } from './app.js';
 import { runtimeConfig } from './config.js';
+import { seedDemoLogin } from './demo.js';
 const config = runtimeConfig();
-const { port, host } = config;
+const { port, host, demoLogin, ...appConfig } = config;
 const store = new Store(config.databasePath);
-const app = createApp({ store, ...config, serveClient: true });
+try {
+  if (demoLogin) await seedDemoLogin(store, demoLogin);
+} catch (error) {
+  store.close();
+  throw error;
+}
+const app = createApp({ store, ...appConfig, demoLoginEmail: demoLogin?.email, serveClient: true });
 const server = app.listen(port, host, () => console.log(`ApplyFlow listening on ${host}:${port}`));
 const cleanup = setInterval(
   () => store.run('DELETE FROM sessions WHERE expires_at < ?', Date.now()),
